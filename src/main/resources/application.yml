@@ -1,0 +1,13 @@
+server:
+  port: 3113
+
+spring:
+  application:
+    name: SimplyPosting
+  datasource:
+    url: "jdbc:h2:mem:simply-posting"
+    username: admin
+    password: qwerty
+
+h2:
+  console: enabled
