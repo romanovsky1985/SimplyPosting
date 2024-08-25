@@ -46,10 +46,18 @@ public class UserModel implements UserDetails, BaseEntity {
 
     boolean deleted;
 
+    @Column(length = 64)
+    private String deletedEmail;
+
     @CreatedDate
     private LocalDate createdAt;
 
     private LocalDate bannedBefore;
+
+    //////////////////// Base Relations ////////////////////
+
+    @OneToMany(mappedBy = "author")
+    private List<PostModel> posts;
 
     //////////////////// Methods ////////////////////
 

@@ -13,7 +13,7 @@ public class DataInitializer implements ApplicationRunner {
     UserService userService;
 
     public void run(ApplicationArguments args) {
-        UserCreateDTO admin = new UserCreateDTO("admin", "Ivan", "Ivanov", "ivanov@test.ru", "qwerty", "ADMIN");
+        UserCreateDTO admin = new UserCreateDTO("admin", "FirstName", "LastName", "admin@nomail.ru", "qwerty", "ADMIN");
         userService.create(admin);
     }
 }

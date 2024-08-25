@@ -31,9 +31,25 @@ public class UserService {
         return userMapper.map(user);
     }
 
+    public UserOpenDTO getByUsername(String username) {
+        UserModel user = userRepository.findByUsername(username).orElseThrow(
+                () -> new ResourceNotFoundException("User username: " + username + " not found"));
+        return userMapper.map(user);
+    }
+
     public UserOpenDTO create(UserCreateDTO createDTO) {
         UserModel user = userMapper.map(createDTO);
         userRepository.save(user);
         return userMapper.map(user);
+    }
+
+    public void setDeletedById(Long id) {
+        UserModel user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User id: " + id + " not found"));
+        UserModel deleted = new UserModel();
+        deleted.setId(user.getId());
+        deleted.setDeleted(true);
+        deleted.setDeletedEmail(user.getEmail());
+        userRepository.save(deleted);
     }
 }

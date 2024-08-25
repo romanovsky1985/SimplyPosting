@@ -3,6 +3,8 @@ package my.SimplyPosting.repository;
 import my.SimplyPosting.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<UserModel, Long> {
+import java.util.Optional;
 
+public interface UserRepository extends JpaRepository<UserModel, Long> {
+    Optional<UserModel> findByUsername(String username);
 }

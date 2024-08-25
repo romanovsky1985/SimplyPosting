@@ -2,6 +2,7 @@ package my.SimplyPosting.controller;
 
 import my.SimplyPosting.dto.UserCreateDTO;
 import my.SimplyPosting.dto.UserOpenDTO;
+import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,19 @@ public class UserController {
                 .body(user);
     }
 
-    @PostMapping
+    @PostMapping(path = "")
     public ResponseEntity<UserOpenDTO> create(@RequestBody @Validated UserCreateDTO createDTO) {
         UserOpenDTO user = userService.create(createDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(user);
     }
+
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        try {
+            userService.setDeletedById(id);
+        } catch (ResourceNotFoundException ignored) {};
+    }
+
 }
