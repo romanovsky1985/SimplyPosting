@@ -3,14 +3,12 @@ package my.SimplyPosting.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,33 +22,28 @@ public class UserModel implements UserDetails, BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column(length = 8)
     private String role;
 
-    @Column(length = 32)
     private String firstName;
 
-    @Column(length = 32)
     private String lastName;
 
-    @Column(unique = true, length = 64)
+    @Column(unique = true)
     private String email;
 
-    @Column(unique = true, length = 32)
+    @Column(unique = true)
     private String username;
 
-    @Column(length = 64)
     private String cryptPassword;
 
-    boolean deleted;
-
-    @Column(length = 64)
     private String deletedEmail;
 
     @CreatedDate
     private LocalDate createdAt;
+
+    boolean deleted;
 
     private LocalDate bannedBefore;
 

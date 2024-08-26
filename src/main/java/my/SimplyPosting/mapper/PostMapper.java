@@ -7,7 +7,7 @@ import my.SimplyPosting.model.PostModel;
 import org.mapstruct.*;
 
 @Mapper(
-        uses = {ReferenceMapper.class },
+        uses = {ReferenceMapper.class},
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE

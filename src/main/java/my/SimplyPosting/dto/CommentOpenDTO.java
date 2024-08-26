@@ -5,11 +5,11 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class PostOpenDTO {
+public class CommentOpenDTO {
     private Long id;
     private Long authorId;
-    private String title;
-    private String slug;
+    private Long postId;
+    private String content;
     private LocalDate createdAt;
-    private Boolean delete;
+    private Boolean deleted;
 }

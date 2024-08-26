@@ -73,6 +73,6 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
                 .andReturn();
         UserOpenDTO deletedDTO = userService.getById(openDTO.getId());
-        Assertions.assertTrue(deletedDTO.isDeleted());
+        Assertions.assertTrue(deletedDTO.getDeleted());
     }
 }

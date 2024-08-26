@@ -6,7 +6,9 @@ import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.mapper.UserMapper;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.repository.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,12 @@ public class UserService {
 
     public List<UserOpenDTO> getAll() {
         return userRepository.findAll().stream()
+                .map(userMapper::map)
+                .toList();
+    }
+
+    public List<UserOpenDTO> getAllExisting(PageRequest pageRequest) {
+        return userRepository.findAllByDeleted(false, pageRequest).stream()
                 .map(userMapper::map)
                 .toList();
     }

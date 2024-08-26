@@ -8,26 +8,24 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "comments")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class PostModel implements BaseEntity {
+public class CommentModel implements BaseEntity {
 
-    //////////////////// Base Fields ////////////////////
+    /////////////////// Base Fields ////////////////////
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
-    private UserModel author;
+    private  UserModel author;
 
-    private String title;
+    @ManyToOne
+    private PostModel post;
 
-    @Column(unique = true)
-    private String slug;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 1024)
     private String content;
 
     @CreatedDate

@@ -6,6 +6,7 @@ import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,8 +21,10 @@ public class UserController {
     UserService userService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<UserOpenDTO>> index() {
-        List<UserOpenDTO> users = userService.getAll();
+    public ResponseEntity<List<UserOpenDTO>> index(@RequestParam(defaultValue = "1") Integer pageNumber,
+                                                   @RequestParam(defaultValue = "10") Integer pageLength) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageLength);
+        List<UserOpenDTO> users = userService.getAllExisting(pageRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .header("X-Total-Count", String.valueOf(users.size()))
                 .body(users);
