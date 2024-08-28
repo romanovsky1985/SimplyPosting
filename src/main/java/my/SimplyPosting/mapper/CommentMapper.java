@@ -21,9 +21,9 @@ public abstract class CommentMapper {
     @Mapping(target = "postId", source = "post.id")
     public abstract CommentOpenDTO map(CommentModel model);
     @AfterMapping
-    public void deleteContent(CommentModel model) {
-        if (model.isDeleted()) {
-            model.setContent("");
+    public void deleteContent(CommentOpenDTO openDTO) {
+        if (openDTO.getDeleted()) {
+            openDTO.setContent("");
         }
     }
 }

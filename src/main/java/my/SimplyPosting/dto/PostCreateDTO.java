@@ -16,7 +16,7 @@ public class PostCreateDTO {
     private String title;
 
     @NotBlank
-    private String slug;
+    private String summary;
 
     @NotBlank
     private String content;

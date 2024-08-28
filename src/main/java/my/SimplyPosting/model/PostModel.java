@@ -17,21 +17,20 @@ public class PostModel implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     private UserModel author;
 
     private String title;
 
-    @Column(unique = true)
-    private String slug;
-
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    private String summary;
 
     @CreatedDate
     private LocalDate createdAt;
 
-    private boolean deleted;
+    private Boolean deleted;
 }

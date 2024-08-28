@@ -33,12 +33,12 @@ public class UserModel implements UserDetails, BaseEntity {
     @Column(unique = true)
     private String email;
 
+    private String deletedEmail;
+
     @Column(unique = true)
     private String username;
 
     private String cryptPassword;
-
-    private String deletedEmail;
 
     @CreatedDate
     private LocalDate createdAt;

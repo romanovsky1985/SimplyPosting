@@ -17,7 +17,7 @@ public class CommentModel implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     private  UserModel author;
@@ -31,5 +31,5 @@ public class CommentModel implements BaseEntity {
     @CreatedDate
     private LocalDate createdAt;
 
-    private boolean deleted;
+    private Boolean deleted;
 }

@@ -9,7 +9,7 @@ public class PostOpenDTO {
     private Long id;
     private Long authorId;
     private String title;
-    private String slug;
+    private String summary;
     private LocalDate createdAt;
-    private Boolean delete;
+    private Boolean deleted;
 }

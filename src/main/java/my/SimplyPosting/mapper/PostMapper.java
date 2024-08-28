@@ -19,6 +19,19 @@ public abstract class PostMapper {
 
     @Mapping(target = "authorId", source = "author.id")
     public abstract PostOpenDTO map(PostModel model);
+    @AfterMapping
+    public void deleteData(PostOpenDTO openDTO) {
+        if (openDTO.getDeleted()) {
+            openDTO.setTitle("");
+            openDTO.setSummary("");
+        }
+    }
 
     public abstract PostContentDTO content(PostModel model);
+    @AfterMapping
+    public void deleteContent(PostContentDTO contentDTO) {
+        if (contentDTO.getDeleted()) {
+            contentDTO.setContent("");
+        }
+    }
 }

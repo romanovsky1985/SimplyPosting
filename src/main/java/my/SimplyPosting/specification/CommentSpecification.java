@@ -9,9 +9,11 @@ import java.time.LocalDate;
 
 @Component
 public class CommentSpecification {
+
     public Specification<CommentModel> build(CommentFilterDTO filterDTO) {
         return withAuthorId(filterDTO.getAuthorId())
                 .and(withPostId(filterDTO.getPostId()))
+                .and(withContentContain(filterDTO.getContentContain()))
                 .and(withCreatedAfter(filterDTO.getCreatedAfter()))
                 .and(withCreatedBefore(filterDTO.getCreatedBefore()))
                 .and(withDeletedStatus(filterDTO.getDeletedStatus()));
@@ -25,6 +27,11 @@ public class CommentSpecification {
     private Specification<CommentModel> withPostId(Long postId) {
         return (root, query, criteriaBuilder) -> postId == null ? criteriaBuilder.conjunction() :
                 criteriaBuilder.equal(root.get("post").get("id"), postId);
+    }
+
+    private Specification<CommentModel> withContentContain(String contentContain) {
+        return (root, query, criteriaBuilder) -> contentContain == null ? criteriaBuilder.conjunction() :
+                criteriaBuilder.like(root.get("content"), "%" + contentContain + "%");
     }
 
     private Specification<CommentModel> withCreatedAfter(LocalDate createdAfter) {
