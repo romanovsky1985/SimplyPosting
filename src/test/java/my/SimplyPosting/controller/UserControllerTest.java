@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
@@ -25,7 +27,7 @@ public class UserControllerTest {
     private final SecurityMockMvcRequestPostProcessors.UserRequestPostProcessor token =
             SecurityMockMvcRequestPostProcessors.user("admin");
     private final UserCreateDTO testCreateDTO = new UserCreateDTO(
-            "ivanov", "Ivan", "Ivanov", "ivanov@test.ru", "qwerty", "USER");
+            "ivanov", "Ivan", "Ivanov", "ivanov@test.ru", "qwerty", "USER", LocalDate.now());
 
     @Autowired
     private UserService userService;

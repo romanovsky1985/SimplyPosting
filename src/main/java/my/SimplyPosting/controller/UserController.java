@@ -1,11 +1,13 @@
 package my.SimplyPosting.controller;
 
 import my.SimplyPosting.dto.UserCreateDTO;
+import my.SimplyPosting.dto.UserFilterDTO;
 import my.SimplyPosting.dto.UserOpenDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,18 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+    // найти пользователей по фильтру с пагинацией
     @GetMapping(path = "")
-    public ResponseEntity<List<UserOpenDTO>> index(@RequestParam(defaultValue = "1") Integer pageNumber,
-                                                   @RequestParam(defaultValue = "10") Integer pageLength) {
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageLength);
-        List<UserOpenDTO> users = userService.getAllExisting(pageRequest);
+    public ResponseEntity<Page<UserOpenDTO>> find(UserFilterDTO filterDTO,
+            @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        Page<UserOpenDTO> users = userService.getPageByFilter(pageRequest, filterDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .header("X-Total-Count", String.valueOf(users.size()))
                 .body(users);
     }
 
+    // получить пользователя по id
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserOpenDTO> show(@PathVariable Long id) {
         UserOpenDTO user = userService.getById(id);
@@ -37,6 +41,15 @@ public class UserController {
                 .body(user);
     }
 
+    // проверить свободный username
+    @GetMapping(path = "/is_free_username")
+    public ResponseEntity<Boolean> isFreeUsername(String username) {
+        Boolean isFree = userService.isFreeUsername(username);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(isFree);
+    }
+
+    // создать пользователя
     @PostMapping(path = "")
     public ResponseEntity<UserOpenDTO> create(@RequestBody @Validated UserCreateDTO createDTO) {
         UserOpenDTO user = userService.create(createDTO);
@@ -44,6 +57,7 @@ public class UserController {
                 .body(user);
     }
 
+    // удалить пользователя
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {

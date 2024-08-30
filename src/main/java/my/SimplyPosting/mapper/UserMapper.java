@@ -24,6 +24,15 @@ public abstract class UserMapper {
         String password = createDTO.getPassword();
         createDTO.setPassword(passwordEncoder.encode(password));
     }
+    @BeforeMapping
+    public void setEmptyFields(UserCreateDTO createDTO) {
+        if (createDTO.getRole() == null) {
+            createDTO.setRole("USER");
+        }
+        if (createDTO.getBannedBefore() == null) {
+            createDTO.setBannedBefore(LocalDate.now().minusDays(1L));
+        }
+    }
     @Mapping(target = "cryptPassword", source = "password")
     public abstract UserModel map(UserCreateDTO createDTO);
 

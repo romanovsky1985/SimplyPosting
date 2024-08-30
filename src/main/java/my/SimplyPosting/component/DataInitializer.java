@@ -7,13 +7,15 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class DataInitializer implements ApplicationRunner {
     @Autowired
     UserService userService;
 
     public void run(ApplicationArguments args) {
-        UserCreateDTO admin = new UserCreateDTO("admin", "FirstName", "LastName", "admin@nomail.ru", "qwerty", "ADMIN");
+        UserCreateDTO admin = new UserCreateDTO("admin", "Ivan", "Ivanov", "admin@test.test", "qwerty", "ADMIN", LocalDate.now());
         userService.create(admin);
     }
 }

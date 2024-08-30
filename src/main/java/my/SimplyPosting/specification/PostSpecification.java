@@ -14,6 +14,7 @@ public class PostSpecification {
         return withAuthorId(filterDTO.getAuthorId())
                 .and(withTitleContain(filterDTO.getTitleContain()))
                 .and(withSummaryContain(filterDTO.getSummaryContain()))
+                .and(withDeletedStatus(filterDTO.getDeletedStatus()))
                 .and(withCreatedAfter(filterDTO.getCreatedAfter()))
                 .and(withCreatedBefore(filterDTO.getCreatedBefore()));
     }
