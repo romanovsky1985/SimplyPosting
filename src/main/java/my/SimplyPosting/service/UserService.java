@@ -12,18 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsManager {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
     @Autowired
-    UserSpecification userSpecification;
+    private UserSpecification userSpecification;
 
     public UserOpenDTO getById(Long id) {
         UserModel user = userRepository.findById(id).orElseThrow(
@@ -63,4 +67,38 @@ public class UserService {
         user.setEmail(null);
         userRepository.save(user);
     }
+
+    //////////////////// UserDetailsService Implementation ////////////////////
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("User username: " + username + " not found"));
+    }
+
+    @Override
+    public void updateUser(UserDetails userDetails) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void createUser(UserDetails userDetails) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        throw new UnsupportedOperationException();
+    }
+
 }

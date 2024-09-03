@@ -1,9 +1,11 @@
 package my.SimplyPosting.service;
 
 import my.SimplyPosting.dto.*;
+import my.SimplyPosting.exception.PermissionDeniedException;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.mapper.PostMapper;
 import my.SimplyPosting.model.PostModel;
+import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.repository.PostRepository;
 import my.SimplyPosting.specification.PostSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class PostService {
     private PostMapper postMapper;
     @Autowired
     private PostSpecification postSpecification;
+    @Autowired
+    private UserService userService;
 
     public PostOpenDTO getById(Long id) {
         PostModel post = postRepository.findById(id).orElseThrow(

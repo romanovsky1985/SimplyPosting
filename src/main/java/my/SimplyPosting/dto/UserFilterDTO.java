@@ -2,13 +2,13 @@ package my.SimplyPosting.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class UserFilterDTO {
     private String usernameContains;
-    private LocalDate createdAfter;
-    private LocalDate createdBefore;
+    private LocalDateTime createdAfter;
+    private LocalDateTime createdBefore;
     private Boolean deletedStatus;
     private Boolean bannedStatus;
 }

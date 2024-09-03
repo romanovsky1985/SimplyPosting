@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class CommentSpecification {
@@ -34,12 +35,12 @@ public class CommentSpecification {
                 criteriaBuilder.like(root.get("content"), "%" + contentContain + "%");
     }
 
-    private Specification<CommentModel> withCreatedAfter(LocalDate createdAfter) {
+    private Specification<CommentModel> withCreatedAfter(LocalDateTime createdAfter) {
         return (root, query, criteriaBuilder) -> createdAfter == null ? criteriaBuilder.conjunction() :
                 criteriaBuilder.greaterThan(root.get("createdAt"), createdAfter);
     }
 
-    private Specification<CommentModel> withCreatedBefore(LocalDate createdBefore) {
+    private Specification<CommentModel> withCreatedBefore(LocalDateTime createdBefore) {
         return (root, query, criteriaBuilder) -> createdBefore == null ? criteriaBuilder.conjunction() :
                 criteriaBuilder.lessThan(root.get("createdAt"), createdBefore);
     }

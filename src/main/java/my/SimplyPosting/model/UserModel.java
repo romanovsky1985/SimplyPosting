@@ -9,8 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +22,7 @@ public class UserModel implements UserDetails, BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String role;
 
@@ -41,11 +41,11 @@ public class UserModel implements UserDetails, BaseEntity {
     private String cryptPassword;
 
     @CreatedDate
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     boolean deleted;
 
-    private LocalDate bannedBefore;
+    private LocalDateTime bannedBefore;
 
     //////////////////// Base Relations ////////////////////
 
@@ -55,7 +55,7 @@ public class UserModel implements UserDetails, BaseEntity {
     //////////////////// Methods ////////////////////
 
     public boolean isBanned() {
-        return bannedBefore != null && LocalDate.now().isBefore(bannedBefore);
+        return bannedBefore != null && LocalDateTime.now().isBefore(bannedBefore);
     }
 
     //////////////////// UserDetails Implementation ////////////////////
@@ -92,6 +92,6 @@ public class UserModel implements UserDetails, BaseEntity {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return Set.of(new SimpleGrantedAuthority(role));
     }
 }

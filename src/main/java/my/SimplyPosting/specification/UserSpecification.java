@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class UserSpecification {
@@ -24,12 +25,12 @@ public class UserSpecification {
 
     }
 
-    private Specification<UserModel> withCreatedAfter(LocalDate createdAfter) {
+    private Specification<UserModel> withCreatedAfter(LocalDateTime createdAfter) {
         return (root, query, criteriaBuilder) -> createdAfter == null ? criteriaBuilder.conjunction() :
                 criteriaBuilder.greaterThan(root.get("createdAt"), createdAfter);
     }
 
-    private Specification<UserModel> withCreatedBefore(LocalDate createdBefore) {
+    private Specification<UserModel> withCreatedBefore(LocalDateTime createdBefore) {
         return (root, query, criteriaBuilder) -> createdBefore == null ? criteriaBuilder.conjunction() :
                 criteriaBuilder.lessThan(root.get("createdAt"), createdBefore);
     }
@@ -41,8 +42,8 @@ public class UserSpecification {
 
     private Specification<UserModel> withBannedStatus(Boolean bannedStatus) {
         return (root, query, criteriaBuilder) -> bannedStatus == null ? criteriaBuilder.conjunction() :
-                bannedStatus ? criteriaBuilder.greaterThan(root.get("bannedBefore"), LocalDate.now()) :
-                        criteriaBuilder.lessThan(root.get("bannedBefore"), LocalDate.now());
+                bannedStatus ? criteriaBuilder.greaterThan(root.get("bannedBefore"), LocalDateTime.now()) :
+                        criteriaBuilder.lessThan(root.get("bannedBefore"), LocalDateTime.now());
 
     }
 

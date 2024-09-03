@@ -2,7 +2,7 @@ package my.SimplyPosting.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class PostOpenDTO {
@@ -10,6 +10,6 @@ public class PostOpenDTO {
     private Long authorId;
     private String title;
     private String summary;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private Boolean deleted;
 }

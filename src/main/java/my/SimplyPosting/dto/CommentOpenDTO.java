@@ -3,6 +3,7 @@ package my.SimplyPosting.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class CommentOpenDTO {
@@ -10,6 +11,6 @@ public class CommentOpenDTO {
     private Long authorId;
     private Long postId;
     private String content;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private Boolean deleted;
 }

@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostCreateDTO {
 
-    private Long authorId;
-
     @NotBlank
     private String title;
 

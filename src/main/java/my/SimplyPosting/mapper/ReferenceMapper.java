@@ -1,6 +1,7 @@
 package my.SimplyPosting.mapper;
 
 import jakarta.persistence.EntityManager;
+import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.model.BaseEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

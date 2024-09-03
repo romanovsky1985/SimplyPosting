@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Mapper(
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
@@ -24,17 +25,15 @@ public abstract class UserMapper {
         String password = createDTO.getPassword();
         createDTO.setPassword(passwordEncoder.encode(password));
     }
-    @BeforeMapping
-    public void setEmptyFields(UserCreateDTO createDTO) {
-        if (createDTO.getRole() == null) {
-            createDTO.setRole("USER");
-        }
-        if (createDTO.getBannedBefore() == null) {
-            createDTO.setBannedBefore(LocalDate.now().minusDays(1L));
-        }
-    }
     @Mapping(target = "cryptPassword", source = "password")
     public abstract UserModel map(UserCreateDTO createDTO);
+    @AfterMapping
+    public void setDefaults(UserModel model) {
+        if (model.getRole() == null) {
+            model.setRole("USER");
+        }
+        model.setBannedBefore(LocalDateTime.MIN);
+    }
 
     public abstract UserOpenDTO map(UserModel model);
 }
