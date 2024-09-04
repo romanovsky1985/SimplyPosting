@@ -33,8 +33,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, "/api/users").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/users").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/users").authenticated()
+
                         .requestMatchers(HttpMethod.POST, "/api/posts").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/posts").hasAuthority("MODERATOR")
+
                         .requestMatchers(HttpMethod.POST, "/api/comments").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/comments").hasAuthority("MODERATOR")
                         .anyRequest().permitAll()

@@ -19,6 +19,7 @@ public class CreateDTOFaker {
         createDTO.setLastName(faker.name().lastName());
         createDTO.setEmail(faker.internet().emailAddress());
         createDTO.setPassword(faker.text().text(6, 10, true));
+        createDTO.setRole("USER");
         return createDTO;
     }
 }

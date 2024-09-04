@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import my.SimplyPosting.dto.UserCreateDTO;
 import my.SimplyPosting.dto.UserOpenDTO;
+import my.SimplyPosting.dto.UserUpdateDTO;
 import my.SimplyPosting.service.UserService;
 import my.SimplyPosting.utils.CreateDTOFaker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -75,5 +77,39 @@ public class UserControllerTest {
         UserOpenDTO deletedDTO = userService.getById(openDTO.getId());
         Assertions.assertTrue(deletedDTO.getDeleted());
         Assertions.assertNull(deletedDTO.getUsername());
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        UserCreateDTO createDTO = faker.fakeCreateUserDTO();
+        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        updateDTO.setOldPassword(createDTO.getPassword());
+        updateDTO.setFirstName(JsonNullable.of(faker.fakeCreateUserDTO().getFirstName()));
+        UserOpenDTO openDTO = userService.create(createDTO);
+        MvcResult result = mockMvc
+                .perform(MockMvcRequestBuilders.put(controllerUrl)
+                        .with(SecurityMockMvcRequestPostProcessors.user(
+                                userService.loadUserByUsername(openDTO.getUsername())))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateDTO)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void testIsFreeUsername() throws Exception {
+        String username = faker.fakeCreateUserDTO().getUsername();
+        MvcResult freeResult = mockMvc
+                .perform(MockMvcRequestBuilders.get(controllerUrl + "/is_free_username" )
+                        .param("username", username))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        Assertions.assertEquals("true", freeResult.getResponse().getContentAsString());
+        MvcResult falseResult = mockMvc
+                .perform(MockMvcRequestBuilders.get(controllerUrl + "/is_free_username")
+                        .param("username", "admin"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        Assertions.assertEquals("false", falseResult.getResponse().getContentAsString());
     }
 }

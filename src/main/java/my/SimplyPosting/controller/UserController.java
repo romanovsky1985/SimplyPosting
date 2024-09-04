@@ -3,6 +3,7 @@ package my.SimplyPosting.controller;
 import my.SimplyPosting.dto.UserCreateDTO;
 import my.SimplyPosting.dto.UserFilterDTO;
 import my.SimplyPosting.dto.UserOpenDTO;
+import my.SimplyPosting.dto.UserUpdateDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.service.UserService;
@@ -54,6 +55,14 @@ public class UserController {
     public ResponseEntity<UserOpenDTO> create(@RequestBody @Validated UserCreateDTO createDTO) {
         UserOpenDTO user = userService.create(createDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
+                .body(user);
+    }
+
+    // обновить свои данные
+    @PutMapping(path = "")
+    public ResponseEntity<UserOpenDTO> update(@RequestBody @Validated UserUpdateDTO updateDTO) {
+        UserOpenDTO user = userService.update(updateDTO);
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(user);
     }
 
