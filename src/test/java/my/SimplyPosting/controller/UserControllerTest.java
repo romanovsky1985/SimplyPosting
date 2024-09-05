@@ -2,9 +2,7 @@ package my.SimplyPosting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import my.SimplyPosting.dto.UserCreateDTO;
-import my.SimplyPosting.dto.UserOpenDTO;
-import my.SimplyPosting.dto.UserUpdateDTO;
+import my.SimplyPosting.dto.*;
 import my.SimplyPosting.service.UserService;
 import my.SimplyPosting.utils.CreateDTOFaker;
 import org.junit.jupiter.api.Assertions;
@@ -86,14 +84,39 @@ public class UserControllerTest {
         updateDTO.setOldPassword(createDTO.getPassword());
         updateDTO.setFirstName(JsonNullable.of(faker.fakeCreateUserDTO().getFirstName()));
         UserOpenDTO openDTO = userService.create(createDTO);
-        MvcResult result = mockMvc
-                .perform(MockMvcRequestBuilders.put(controllerUrl)
+        mockMvc.perform(MockMvcRequestBuilders.put(controllerUrl)
                         .with(SecurityMockMvcRequestPostProcessors.user(
                                 userService.loadUserByUsername(openDTO.getUsername())))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDTO)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(controllerUrl + "/private")
+                        .with(SecurityMockMvcRequestPostProcessors.user(
+                                userService.loadUserByUsername(openDTO.getUsername()))))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
+        UserPrivateDTO responseDTO = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<UserPrivateDTO>() {});
+        Assertions.assertEquals(responseDTO.getFirstName(), updateDTO.getFirstName().get());
+    }
+
+    @Test
+    public void testModify() throws Exception {
+        UserCreateDTO createDTO = faker.fakeCreateUserDTO();
+        UserOpenDTO openDTO = userService.create(createDTO);
+        UserModificationDTO modificationDTO = new UserModificationDTO();
+        modificationDTO.setId(openDTO.getId());
+        modificationDTO.setRole(JsonNullable.of("MODERATOR"));
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(controllerUrl + "/modification")
+                        .with(SecurityMockMvcRequestPostProcessors.user(
+                                userService.loadUserByUsername("admin")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(modificationDTO)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        UserOpenDTO responseDTO = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<UserOpenDTO>() {});
+        Assertions.assertEquals(responseDTO.getRole(), "MODERATOR");
     }
 
     @Test
@@ -112,4 +135,5 @@ public class UserControllerTest {
                 .andReturn();
         Assertions.assertEquals("false", falseResult.getResponse().getContentAsString());
     }
+
 }

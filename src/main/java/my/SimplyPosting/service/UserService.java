@@ -1,9 +1,6 @@
 package my.SimplyPosting.service;
 
-import my.SimplyPosting.dto.UserCreateDTO;
-import my.SimplyPosting.dto.UserFilterDTO;
-import my.SimplyPosting.dto.UserOpenDTO;
-import my.SimplyPosting.dto.UserUpdateDTO;
+import my.SimplyPosting.dto.*;
 import my.SimplyPosting.exception.PermissionDeniedException;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.mapper.UserMapper;
@@ -22,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserService implements UserDetailsManager {
@@ -40,6 +35,13 @@ public class UserService implements UserDetailsManager {
         UserModel user = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User id: " + id + " not found"));
         return userMapper.map(user);
+    }
+
+    public UserPrivateDTO getPrivateByCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserModel user = userRepository.findByUsername(authentication.getName()).orElseThrow(
+                () -> new PermissionDeniedException("Only authenticated user can get their data"));
+        return userMapper.mapToPrivate(user);
     }
 
     public UserOpenDTO getByUsername(String username) {
@@ -73,6 +75,14 @@ public class UserService implements UserDetailsManager {
             throw new PermissionDeniedException("Incorrect password ");
         }
         userMapper.update(updateDTO, user);
+        userRepository.save(user);
+        return userMapper.map(user);
+    }
+
+    public UserOpenDTO modify(UserModificationDTO modificationDTO) {
+        UserModel user = userRepository.findById(modificationDTO.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User id: " + modificationDTO.getId() + " not found"));
+        userMapper.modify(modificationDTO, user);
         userRepository.save(user);
         return userMapper.map(user);
     }

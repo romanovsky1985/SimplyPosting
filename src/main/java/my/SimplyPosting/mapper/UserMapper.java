@@ -1,8 +1,6 @@
 package my.SimplyPosting.mapper;
 
-import my.SimplyPosting.dto.UserCreateDTO;
-import my.SimplyPosting.dto.UserOpenDTO;
-import my.SimplyPosting.dto.UserUpdateDTO;
+import my.SimplyPosting.dto.*;
 import my.SimplyPosting.model.UserModel;
 import org.mapstruct.*;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -38,6 +36,8 @@ public abstract class UserMapper {
 
     public abstract UserOpenDTO map(UserModel model);
 
+    public abstract UserPrivateDTO mapToPrivate(UserModel model);
+
     @BeforeMapping
     public void encodePassword(UserUpdateDTO updateDTO) {
         if (updateDTO.getPassword() != null) {
@@ -47,5 +47,7 @@ public abstract class UserMapper {
     }
     @Mapping(target = "cryptPassword", source = "password")
     public abstract void update(UserUpdateDTO updateDTO, @MappingTarget UserModel model);
+
+    public abstract void modify(UserModificationDTO modificationDTO, @MappingTarget UserModel model);
 
 }

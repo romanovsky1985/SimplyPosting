@@ -1,12 +1,10 @@
 package my.SimplyPosting.controller;
 
-import my.SimplyPosting.dto.UserCreateDTO;
-import my.SimplyPosting.dto.UserFilterDTO;
-import my.SimplyPosting.dto.UserOpenDTO;
-import my.SimplyPosting.dto.UserUpdateDTO;
+import my.SimplyPosting.dto.*;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.service.UserService;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -58,10 +56,26 @@ public class UserController {
                 .body(user);
     }
 
-    // обновить свои данные
+    // получить свои конфиденциальные данные
+    @GetMapping(path = "/private")
+    public ResponseEntity<UserPrivateDTO> showPrivate() {
+        UserPrivateDTO user = userService.getPrivateByCurrentUser();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(user);
+    }
+
+    // обновить свои конфиденциальные данные
     @PutMapping(path = "")
     public ResponseEntity<UserOpenDTO> update(@RequestBody @Validated UserUpdateDTO updateDTO) {
         UserOpenDTO user = userService.update(updateDTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(user);
+    }
+
+    // обновить данные определеющие пользователя (логин, почта, роль)
+    @PutMapping(path = "modification")
+    public ResponseEntity<UserOpenDTO> modify(@RequestBody @Validated UserModificationDTO modificationDTO) {
+        UserOpenDTO user = userService.modify(modificationDTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(user);
     }
