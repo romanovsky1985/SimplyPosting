@@ -1,15 +1,15 @@
-package my.SimplyPosting.dto;
+package my.SimplyPosting.dto.post;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class UserOpenDTO {
+public class PostOpenDTO {
     private Long id;
-    private String role;
-    private String username;
+    private Long authorId;
+    private String title;
+    private String summary;
     private LocalDateTime createdAt;
-    private LocalDateTime banedBefore;
     private Boolean deleted;
 }

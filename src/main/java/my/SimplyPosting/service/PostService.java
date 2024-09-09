@@ -1,7 +1,9 @@
 package my.SimplyPosting.service;
 
-import my.SimplyPosting.dto.*;
-import my.SimplyPosting.exception.PermissionDeniedException;
+import my.SimplyPosting.dto.post.PostContentDTO;
+import my.SimplyPosting.dto.post.PostCreateDTO;
+import my.SimplyPosting.dto.post.PostFilterDTO;
+import my.SimplyPosting.dto.post.PostOpenDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.mapper.PostMapper;
 import my.SimplyPosting.model.PostModel;
@@ -13,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PostService {
@@ -46,7 +46,10 @@ public class PostService {
     }
 
     public PostOpenDTO create(PostCreateDTO createDTO) {
+        UserModel author = userService.getAuthenticatedUser();
         PostModel post = postMapper.map(createDTO);
+        post.setDeleted(false);
+        post.setAuthor(author);
         postRepository.save(post);
         return postMapper.map(post);
     }

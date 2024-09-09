@@ -1,4 +1,4 @@
-package my.SimplyPosting.dto;
+package my.SimplyPosting.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

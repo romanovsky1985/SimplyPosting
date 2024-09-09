@@ -1,6 +1,6 @@
 package my.SimplyPosting.service;
 
-import my.SimplyPosting.dto.*;
+import my.SimplyPosting.dto.user.*;
 import my.SimplyPosting.exception.PermissionDeniedException;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.mapper.UserMapper;
@@ -63,16 +63,15 @@ public class UserService implements UserDetailsManager {
 
     public UserOpenDTO create(UserCreateDTO createDTO) {
         UserModel user = userMapper.map(createDTO);
+        user.setDeleted(false);
         userRepository.save(user);
         return userMapper.map(user);
     }
 
     public UserOpenDTO update(UserUpdateDTO updateDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserModel user = userRepository.findByUsername(authentication.getName()).orElseThrow(
-                () -> new PermissionDeniedException("Only authenticated user can update their data"));
+        UserModel user = getAuthenticatedUser();
         if (!passwordEncoder.matches(updateDTO.getOldPassword(), user.getCryptPassword())) {
-            throw new PermissionDeniedException("Incorrect password ");
+            throw new PermissionDeniedException("Password incorrect");
         }
         userMapper.update(updateDTO, user);
         userRepository.save(user);
@@ -95,6 +94,12 @@ public class UserService implements UserDetailsManager {
         user.setDeletedEmail(user.getEmail());
         user.setEmail(null);
         userRepository.save(user);
+    }
+
+    public UserModel getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByUsername(authentication.getName()).orElseThrow(
+                () -> new PermissionDeniedException("No authenticated user!"));
     }
 
     //////////////////// UserDetailsService Implementation ////////////////////

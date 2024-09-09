@@ -1,4 +1,4 @@
-package my.SimplyPosting.dto;
+package my.SimplyPosting.dto.post;
 
 import lombok.Data;
 

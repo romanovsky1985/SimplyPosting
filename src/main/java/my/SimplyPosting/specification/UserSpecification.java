@@ -1,11 +1,10 @@
 package my.SimplyPosting.specification;
 
-import my.SimplyPosting.dto.UserFilterDTO;
+import my.SimplyPosting.dto.user.UserFilterDTO;
 import my.SimplyPosting.model.UserModel;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component

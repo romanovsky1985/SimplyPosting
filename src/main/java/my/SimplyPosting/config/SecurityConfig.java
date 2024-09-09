@@ -32,13 +32,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, "/api/users").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/users").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/users/private").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/users/modification").hasAuthority("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/posts").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/posts").hasAuthority("MODERATOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/posts/*").hasAuthority("MODERATOR")
 
                         .requestMatchers(HttpMethod.POST, "/api/comments").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/comments").hasAuthority("MODERATOR")

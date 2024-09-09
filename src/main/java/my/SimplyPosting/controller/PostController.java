@@ -1,9 +1,9 @@
 package my.SimplyPosting.controller;
 
-import my.SimplyPosting.dto.PostContentDTO;
-import my.SimplyPosting.dto.PostCreateDTO;
-import my.SimplyPosting.dto.PostFilterDTO;
-import my.SimplyPosting.dto.PostOpenDTO;
+import my.SimplyPosting.dto.post.PostContentDTO;
+import my.SimplyPosting.dto.post.PostCreateDTO;
+import my.SimplyPosting.dto.post.PostFilterDTO;
+import my.SimplyPosting.dto.post.PostOpenDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -57,7 +55,7 @@ public class PostController {
     }
 
     // удалить пост
-    @DeleteMapping(path = "")
+    @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         try {

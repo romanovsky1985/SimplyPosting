@@ -2,7 +2,7 @@ package my.SimplyPosting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import my.SimplyPosting.dto.*;
+import my.SimplyPosting.dto.user.*;
 import my.SimplyPosting.service.UserService;
 import my.SimplyPosting.utils.CreateDTOFaker;
 import org.junit.jupiter.api.Assertions;

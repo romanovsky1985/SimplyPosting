@@ -1,10 +1,8 @@
 package my.SimplyPosting.controller;
 
-import my.SimplyPosting.dto.*;
+import my.SimplyPosting.dto.user.*;
 import my.SimplyPosting.exception.ResourceNotFoundException;
-import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.service.UserService;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/users")
@@ -25,7 +21,7 @@ public class UserController {
     // найти пользователей по фильтру с пагинацией
     @GetMapping(path = "")
     public ResponseEntity<Page<UserOpenDTO>> find(UserFilterDTO filterDTO,
-            @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+                                                  @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         Page<UserOpenDTO> users = userService.getPageByFilter(pageRequest, filterDTO);
         return ResponseEntity.status(HttpStatus.OK)

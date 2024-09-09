@@ -1,6 +1,5 @@
 package my.SimplyPosting.component;
 
-import my.SimplyPosting.dto.UserCreateDTO;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.repository.UserRepository;
 import my.SimplyPosting.service.UserService;
@@ -9,8 +8,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class DataInitializer implements ApplicationRunner {
