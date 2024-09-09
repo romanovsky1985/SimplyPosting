@@ -68,7 +68,7 @@ public class UserController {
                 .body(user);
     }
 
-    // обновить данные определеющие пользователя (логин, почта, роль)
+    // обновить данные определяющие пользователя (логин, почта, роль)
     @PutMapping(path = "modification")
     public ResponseEntity<UserOpenDTO> modify(@RequestBody @Validated UserModificationDTO modificationDTO) {
         UserOpenDTO user = userService.modify(modificationDTO);

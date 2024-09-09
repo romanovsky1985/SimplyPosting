@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 
 @Service
 public class UserService implements UserDetailsManager {
@@ -94,6 +96,12 @@ public class UserService implements UserDetailsManager {
         user.setDeletedEmail(user.getEmail());
         user.setEmail(null);
         userRepository.save(user);
+    }
+
+    public void setBanById(Long id, LocalDateTime bannedBefore) {
+        UserModel user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User id: " + id + " not found"));
+        user.setBannedBefore(bannedBefore);
     }
 
     public UserModel getAuthenticatedUser() {
