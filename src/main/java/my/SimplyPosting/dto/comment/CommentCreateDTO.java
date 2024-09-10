@@ -1,4 +1,4 @@
-package my.SimplyPosting.dto;
+package my.SimplyPosting.dto.comment;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

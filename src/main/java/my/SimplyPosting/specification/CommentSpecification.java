@@ -1,11 +1,10 @@
 package my.SimplyPosting.specification;
 
-import my.SimplyPosting.dto.CommentFilterDTO;
+import my.SimplyPosting.dto.comment.CommentFilterDTO;
 import my.SimplyPosting.model.CommentModel;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component

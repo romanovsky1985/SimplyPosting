@@ -1,10 +1,9 @@
 package my.SimplyPosting.mapper;
 
-import my.SimplyPosting.dto.CommentCreateDTO;
-import my.SimplyPosting.dto.CommentOpenDTO;
+import my.SimplyPosting.dto.comment.CommentCreateDTO;
+import my.SimplyPosting.dto.comment.CommentOpenDTO;
 import my.SimplyPosting.exception.PermissionDeniedException;
 import my.SimplyPosting.model.CommentModel;
-import my.SimplyPosting.model.PostModel;
 import my.SimplyPosting.model.UserModel;
 import my.SimplyPosting.repository.UserRepository;
 import org.mapstruct.*;

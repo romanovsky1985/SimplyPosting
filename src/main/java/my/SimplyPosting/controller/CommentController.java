@@ -1,8 +1,8 @@
 package my.SimplyPosting.controller;
 
-import my.SimplyPosting.dto.CommentCreateDTO;
-import my.SimplyPosting.dto.CommentFilterDTO;
-import my.SimplyPosting.dto.CommentOpenDTO;
+import my.SimplyPosting.dto.comment.CommentCreateDTO;
+import my.SimplyPosting.dto.comment.CommentFilterDTO;
+import my.SimplyPosting.dto.comment.CommentOpenDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comments")

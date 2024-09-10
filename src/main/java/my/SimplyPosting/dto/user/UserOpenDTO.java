@@ -10,6 +10,6 @@ public class UserOpenDTO {
     private String role;
     private String username;
     private LocalDateTime createdAt;
-    private LocalDateTime banedBefore;
+    private LocalDateTime bannedBefore;
     private Boolean deleted;
 }

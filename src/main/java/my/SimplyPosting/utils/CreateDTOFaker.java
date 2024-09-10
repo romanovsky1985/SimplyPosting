@@ -1,5 +1,6 @@
 package my.SimplyPosting.utils;
 
+import my.SimplyPosting.dto.ban.BanCreateDTO;
 import my.SimplyPosting.dto.post.PostCreateDTO;
 import my.SimplyPosting.dto.user.UserCreateDTO;
 import net.datafaker.Faker;
@@ -31,4 +32,13 @@ public class CreateDTOFaker {
         createDTO.setContent("Comics story text...");
         return createDTO;
     }
+
+    public BanCreateDTO fakeBanCreateDTO(Long offenderId) {
+        BanCreateDTO createDTO = new BanCreateDTO();
+        createDTO.setDays(faker.number().randomDigitNotZero());
+        createDTO.setInfo(faker.futurama().hermesCatchPhrase());
+        createDTO.setOffenderId(offenderId);
+        return createDTO;
+    }
+
 }

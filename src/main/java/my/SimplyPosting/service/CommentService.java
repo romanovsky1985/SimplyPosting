@@ -1,8 +1,8 @@
 package my.SimplyPosting.service;
 
-import my.SimplyPosting.dto.CommentCreateDTO;
-import my.SimplyPosting.dto.CommentFilterDTO;
-import my.SimplyPosting.dto.CommentOpenDTO;
+import my.SimplyPosting.dto.comment.CommentCreateDTO;
+import my.SimplyPosting.dto.comment.CommentFilterDTO;
+import my.SimplyPosting.dto.comment.CommentOpenDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.mapper.CommentMapper;
 import my.SimplyPosting.model.CommentModel;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CommentService {

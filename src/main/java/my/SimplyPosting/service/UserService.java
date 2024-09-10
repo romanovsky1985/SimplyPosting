@@ -102,6 +102,7 @@ public class UserService implements UserDetailsManager {
         UserModel user = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User id: " + id + " not found"));
         user.setBannedBefore(bannedBefore);
+        userRepository.save(user);
     }
 
     public UserModel getAuthenticatedUser() {

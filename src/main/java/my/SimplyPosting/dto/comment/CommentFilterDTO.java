@@ -1,8 +1,7 @@
-package my.SimplyPosting.dto;
+package my.SimplyPosting.dto.comment;
 
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
