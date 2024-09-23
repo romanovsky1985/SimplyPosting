@@ -6,6 +6,7 @@ import my.SimplyPosting.dto.post.PostFilterDTO;
 import my.SimplyPosting.dto.post.PostOpenDTO;
 import my.SimplyPosting.exception.ResourceNotFoundException;
 import my.SimplyPosting.service.PostService;
+import my.SimplyPosting.utils.Routing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,13 +16,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/posts")
 public class PostController {
     @Autowired
     PostService postService;
 
     // получить пост по id
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = Routing.POSTS_ID)
     public ResponseEntity<PostOpenDTO> show(@PathVariable Long id) {
         PostOpenDTO post = postService.getById(id);
         return ResponseEntity.status(HttpStatus.OK)
@@ -29,7 +29,7 @@ public class PostController {
     }
 
     // найти посты по фильтру с пагинацией
-    @GetMapping(path = "")
+    @GetMapping(path = Routing.POSTS)
     public ResponseEntity<Page<PostOpenDTO>> find(PostFilterDTO filterDTO,
             @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         PageRequest pageRequest = PageRequest.of(page -1, size);
@@ -39,7 +39,7 @@ public class PostController {
     }
 
     // получить контент конкретного поста по id
-    @GetMapping(path = "/content/{id}")
+    @GetMapping(path = Routing.POSTS_GET_CONTENT)
     public ResponseEntity<PostContentDTO> content(@PathVariable Long id) {
         PostContentDTO post = postService.getContentById(id);
         return ResponseEntity.status(HttpStatus.OK)
@@ -47,7 +47,7 @@ public class PostController {
     }
 
     // создать пост
-    @PostMapping(path = "")
+    @PostMapping(path = Routing.POSTS)
     public ResponseEntity<PostOpenDTO> create(@RequestBody @Validated PostCreateDTO createDTO) {
         PostOpenDTO post = postService.create(createDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -55,7 +55,7 @@ public class PostController {
     }
 
     // удалить пост
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = Routing.POSTS_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         try {

@@ -9,6 +9,7 @@ import my.SimplyPosting.dto.user.UserOpenDTO;
 import my.SimplyPosting.service.BanService;
 import my.SimplyPosting.service.UserService;
 import my.SimplyPosting.utils.CreateDTOFaker;
+import my.SimplyPosting.utils.Routing;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.time.LocalDateTime;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BanControllerTest {
-    private final String controllerUrl = "/api/ban";
+    private final String controllerUrl = Routing.BANS;
 
     @Autowired
     private MockMvc mockMvc;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import my.SimplyPosting.dto.user.*;
 import my.SimplyPosting.service.UserService;
 import my.SimplyPosting.utils.CreateDTOFaker;
+import my.SimplyPosting.utils.Routing;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
-    private final String controllerUrl = "/api/users";
+    private final String controllerUrl = Routing.USERS;
 
     @Autowired
     private UserService userService;
@@ -90,7 +91,7 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(controllerUrl + "/private")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(Routing.USERS_GET_PRIVATE)
                         .with(SecurityMockMvcRequestPostProcessors.user(
                                 userService.loadUserByUsername(openDTO.getUsername()))))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -107,7 +108,7 @@ public class UserControllerTest {
         UserModificationDTO modificationDTO = new UserModificationDTO();
         modificationDTO.setId(openDTO.getId());
         modificationDTO.setRole(JsonNullable.of("MODERATOR"));
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(controllerUrl + "/modification")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(Routing.USERS_MODIFICATION)
                         .with(SecurityMockMvcRequestPostProcessors.user(
                                 userService.loadUserByUsername("admin")))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -123,13 +124,13 @@ public class UserControllerTest {
     public void testIsFreeUsername() throws Exception {
         String username = faker.fakeCreateUserDTO().getUsername();
         MvcResult freeResult = mockMvc
-                .perform(MockMvcRequestBuilders.get(controllerUrl + "/is_free_username" )
+                .perform(MockMvcRequestBuilders.get(Routing.USERS_CHECK_USERNAME)
                         .param("username", username))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
         Assertions.assertEquals("true", freeResult.getResponse().getContentAsString());
         MvcResult falseResult = mockMvc
-                .perform(MockMvcRequestBuilders.get(controllerUrl + "/is_free_username")
+                .perform(MockMvcRequestBuilders.get(Routing.USERS_CHECK_USERNAME)
                         .param("username", "admin"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();

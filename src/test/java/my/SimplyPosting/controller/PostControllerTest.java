@@ -8,6 +8,7 @@ import my.SimplyPosting.dto.user.UserOpenDTO;
 import my.SimplyPosting.service.PostService;
 import my.SimplyPosting.service.UserService;
 import my.SimplyPosting.utils.CreateDTOFaker;
+import my.SimplyPosting.utils.Routing;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PostControllerTest {
-    private final String controllerUrl = "/api/posts";
+    private final String controllerUrl = Routing.POSTS;
 
     @Autowired
     private MockMvc mockMvc;
